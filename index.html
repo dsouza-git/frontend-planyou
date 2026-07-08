@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Organizador de Tarefas para você organizar e gerenciar suas tarefas com facilidade.">
+    <title>Plan You - Organizador de Tarefas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Plan You</h1>
+                </div>
+                <nav class="nav" role="navigation" aria-label="Navegação principal">
+                    <button class="nav-btn active" data-view="tasks">
+                        <span class="material-icons">list_alt</span>
+                        <span>Tarefas</span>
+                    </button>
+                    <button class="nav-btn" data-view="agenda">
+                        <span class="material-icons">calendar_month</span>
+                        <span>Agenda</span>
+                    </button>
+                    <button class="nav-btn" data-view="notes">
+                        <span class="material-icons">sticky_note_2</span>
+                        <span>Notas</span>
+                    </button>
+                </nav>
+                <button class="add-task-btn" id="addTaskBtn" aria-label="Adicionar nova tarefa">
+                    <span class="material-icons">add</span>
+                    <span>Nova Tarefa</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main" role="main">
+        <div class="container">
+            <section class="stats-section" aria-label="Estatísticas das tarefas">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="material-icons stat-icon">schedule</span>
+                        <div class="stat-info">
+                            <div class="stat-number" id="pendingCount">0</div>
+                            <div class="stat-label">Para Começar</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="material-icons stat-icon">rotate_right</span>
+                        <div class="stat-info">
+                            <div class="stat-number" id="inProgressCount">0</div>
+                            <div class="stat-label">Em Andamento</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="material-icons stat-icon">check_circle</span>
+                        <div class="stat-info">
+                            <div class="stat-number" id="completedCount">0</div>
+                            <div class="stat-label">Concluídas</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="material-icons stat-icon">priority_high</span>
+                        <div class="stat-info">
+                            <div class="stat-number" id="urgentCount">0</div>
+                            <div class="stat-label">Urgentes</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="filters-section" aria-label="Filtros de tarefas">
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">Todas</button>
+                    <button class="filter-btn" data-filter="routine">
+                        <span class="material-icons">repeat</span>
+                        Rotina
+                    </button>
+                    <button class="filter-btn" data-filter="urgent">
+                        <span class="material-icons">warning</span>
+                        Urgente
+                    </button>
+                    <button class="filter-btn" data-filter="important">
+                        <span class="material-icons">star</span>
+                        Importante
+                    </button>
+                    <button class="filter-btn" data-filter="delegate">
+                        <span class="material-icons">group</span>
+                        Delegar
+                    </button>
+                    <button class="filter-btn" data-filter="postpone">
+                        <span class="material-icons">schedule_send</span>
+                        Adiar
+                    </button>
+                </div>
+            </section>
+
+            <section class="tasks-view" id="tasksView">
+                <div class="tasks-container" id="tasksContainer" role="list"></div>
+            </section>
+
+            <section class="agenda-view hidden" id="agendaView">
+                <div class="agenda-container">
+                    <div class="agenda-header">
+                        <button class="agenda-nav-btn" id="prevMonth">&lt;</button>
+                        <h2 id="currentMonth"></h2>
+                        <button class="agenda-nav-btn" id="nextMonth">&gt;</button>
+                    </div>
+                    <div class="calendar" id="calendar"></div>
+                </div>
+            </section>
+
+            <section class="notes-view hidden" id="notesView">
+                <div class="notes-container" id="notesContainer"></div>
+            </section>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-header">
+                <h2 id="modalTitle">Nova Tarefa</h2>
+                <button class="modal-close" id="modalClose" aria-label="Fechar modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="taskForm">
+                    <div class="form-group">
+                        <label for="taskTitle">Título</label>
+                        <input type="text" id="taskTitle" required placeholder="Título da tarefa">
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDescription">Descrição</label>
+                        <textarea id="taskDescription" rows="3" placeholder="Descrição da tarefa"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskDueDate">Data de Vencimento</label>
+                            <input type="date" id="taskDueDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="taskPriority">Prioridade</label>
+                            <select id="taskPriority">
+                                <option value="routine"> Rotina</option>
+                                <option value="urgent"> Urgente</option>
+                                <option value="important"> Importante</option>
+                                <option value="delegate"> Delegar</option>
+                                <option value="postpone"> Adiar</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskStatus">Status</label>
+                        <select id="taskStatus">
+                            <option value="pending"> Para Começar</option>
+                            <option value="in-progress"> Em Andamento</option>
+                            <option value="completed"> Concluída</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskNotes">Notas</label>
+                        <textarea id="taskNotes" rows="4" placeholder="Notas adicionais sobre a tarefa"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelBtn">Cancelar</button>
+                        <button type="submit" class="btn-primary">Salvar Tarefa</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
