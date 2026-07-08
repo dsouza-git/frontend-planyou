@@ -1,11 +1,11 @@
 # Plan You - Organizador de Tarefas
 
-Um organizador de tarefas moderno e responsivo, com design minimalista e ícones do Google Material Design.
+Um organizador de tarefas responsivo, com design minimalista e ícones do Google Material Design.
 
 ## Funcionalidades
 
 - ✅ Gerenciamento de tarefas (adicionar, editar, excluir)
-- 📊 Visualização de estatísticas (para começar, em andamento, concluídas, urgentes)
+- 📊 Visualização de processo (para começar, em andamento, concluídas, urgentes)
 - 🏷️ Filtros por prioridade (rotina, urgente, importante, delegar, adiar)
 - 📅 Visualização em agenda
 - 📝 Visualização de notas
@@ -49,4 +49,4 @@ frontend-web1/
 
 ## Autor
 
-Projeto desenvolvido com ❤️
+D' Souza
